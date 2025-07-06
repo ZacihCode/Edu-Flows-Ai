@@ -125,18 +125,24 @@ def register():
     db.session.commit()
     return jsonify({"message": "Berhasil daftar", "user_id": user.id})
 
+@app.route("/test-db")
+def test_db():
+    try:
+        users = User.query.limit(1).all()
+        return jsonify({"success": True, "user_count": len(users)})
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
 @app.route("/login", methods=["POST"])
 def login():
-    data = request.json
-    user = User.query.filter_by(email=data["email"]).first()
+    try:
+        data = request.json
+        user = User.query.filter_by(email=data["email"]).first()
 
-    if user and bcrypt.checkpw(data["password"].encode(), user.password.encode()):
-        user.token = secrets.token_hex(32)  # Perbarui token
-        db.session.commit()
-        return jsonify(
-            {
-                "message": "Berhasil login",
+        if user and bcrypt.checkpw(data["password"].encode(), user.password.encode()):
+            user.token = secrets.token_hex(32)
+            db.session.commit()
+            return jsonify({
                 "token": user.token,
                 "user": {
                     "id": user.id,
@@ -145,10 +151,13 @@ def login():
                     "join_date": user.join_date,
                     "iq_score": user.iq_score,
                 },
-            }
-        )
-    return jsonify({"error": "Email atau password salah"}), 401
+            })
+        return jsonify({"error": "Email atau password salah"}), 401
 
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": "Internal server error"}), 500
 
 @app.route("/generate-quiz", methods=["POST"])
 def generate_quiz():
