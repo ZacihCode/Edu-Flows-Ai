@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from pymongo import MongoClient
 from dotenv import load_dotenv
+from gemini_helper import generate_questions
 import os, datetime, bcrypt, secrets
 
 # Load .env
@@ -174,6 +175,22 @@ def submit_result():
     iq_score = calculate_iq(str(user["_id"]))
     users.update_one({"_id": user["_id"]}, {"$set": {"iq_score": iq_score}})
     return jsonify({"message": "Hasil kuis disimpan"})
+
+
+@app.route("/generate-quiz", methods=["POST"])
+def generate_quiz():
+    token = request.headers.get("Authorization")
+    user = users.find_one({"token": token})
+    if not user:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.json
+    topic = data["topic"]
+    level = data["level"]
+    count = int(data.get("count", 5))  # pakai default 5 kalau kosong
+
+    questions = generate_questions(topic, level, count)
+    return jsonify({"questions": questions})
 
 
 @app.route("/api/leaderboard", methods=["GET"])
