@@ -73,9 +73,11 @@
         }
 
         .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(76, 29, 149, 0.9);
+            /* Ungu gelap solid, masih tembus sedikit */
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .glass-card {
@@ -474,7 +476,7 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glass-effect">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-purple-500/60 backdrop-blur-md border-b border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
@@ -522,7 +524,7 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobileMenu" class="hidden md:hidden glass-effect border-t border-white/10">
+        <div id="mobileMenu" class="hidden md:hidden bg-purple-500/60 backdrop-blur-md border-t border-white/10">
             <div class="px-4 py-3 space-y-2">
                 <a href="#" onclick="showSection('home')"
                     class="block text-white/90 hover:text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
@@ -1308,10 +1310,10 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, password })
                 });
-            
+
                 const text = await res.text();  // ambil teks mentah
                 let data;
-            
+
                 try {
                     data = JSON.parse(text);
                 } catch (e) {
@@ -1319,19 +1321,19 @@
                     showToast("Server error: Response bukan JSON", "error");
                     return;
                 }
-            
+
                 if (res.ok) {
                     localStorage.setItem("token", data.token);
                     localStorage.setItem("currentUser", JSON.stringify(data.user));
                     currentUser = data.user;
-            
+
                     showSection("home");
                     updateNavigation();
                     showToast("Berhasil masuk!", "success");
                 } else {
                     showToast(data.error || "Login gagal!", "error");
                 }
-            
+
             } catch (err) {
                 console.error("Login error:", err);
                 showToast("Gagal konek ke server", "error");
