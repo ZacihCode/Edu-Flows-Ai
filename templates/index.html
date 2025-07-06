@@ -1308,19 +1308,30 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, password })
                 });
-
-                const data = await res.json();
+            
+                const text = await res.text();  // ambil teks mentah
+                let data;
+            
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    console.error("❌ Response bukan JSON:\n", text);
+                    showToast("Server error: Response bukan JSON", "error");
+                    return;
+                }
+            
                 if (res.ok) {
                     localStorage.setItem("token", data.token);
                     localStorage.setItem("currentUser", JSON.stringify(data.user));
                     currentUser = data.user;
-
+            
                     showSection("home");
                     updateNavigation();
                     showToast("Berhasil masuk!", "success");
                 } else {
                     showToast(data.error || "Login gagal!", "error");
                 }
+            
             } catch (err) {
                 console.error("Login error:", err);
                 showToast("Gagal konek ke server", "error");
