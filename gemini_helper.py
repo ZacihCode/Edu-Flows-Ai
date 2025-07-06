@@ -57,13 +57,7 @@ Variasi ke-{random.randint(1000, 9999)}
     try:
         response = requests.post(url, json=payload)
         response.raise_for_status()
-
         text = response.json()["candidates"][0]["content"]["parts"][0]["text"]
-
-        print("\n=== 🔍 DEBUG: RAW RESPONSE FROM GEMINI ===\n")
-        print(text)
-        print("\n=== END ===\n")
-
         cleaned_text = clean_response(text)
         questions = json.loads(cleaned_text)
         return validate_questions(questions)  # validasi jawaban benar
