@@ -18,9 +18,9 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Init DB
 db.init_app(app)
-with app.app_context():
-    print("✅ Membuat database jika belum ada...")
-    db.create_all()
+# with app.app_context():
+#     print("✅ Membuat database jika belum ada...")
+#     db.create_all()
 
 
 # ========== UTIL FUNCTIONS ==========
