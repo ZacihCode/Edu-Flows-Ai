@@ -820,7 +820,7 @@
                             <label class="block text-gray-700 text-sm font-semibold mb-3">
                                 <i class="fas fa-list-ol mr-2 text-green-600"></i>Jumlah Soal
                             </label>
-                            <select id="quizCount"
+                            <select id="quizCounts"
                                 class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all">
                                 <option value="5">5 Soal - Cepat</option>
                                 <option value="10">10 Soal - Standar</option>
@@ -1066,6 +1066,7 @@
             try {
                 initializeEventListeners();
                 fetchStatsAndAnimate();
+                handleResize();
                 // Auto-login
                 const token = localStorage.getItem('token');
                 const savedUser = localStorage.getItem('currentUser');
@@ -1327,10 +1328,6 @@
 
             // Scroll to top
             window.scrollTo(0, 0);
-
-            if (sectionName === "leaderboard") {
-                refreshLeaderboard();
-            }
         }
 
         function toggleMobileMenu() {
@@ -1421,7 +1418,7 @@
         function startQuiz() {
             const topic = document.getElementById('quizTopic').value;
             const level = document.getElementById('quizLevel').value;
-            const count = document.getElementById('quizCount').value;
+            const count = parseInt(document.getElementById('quizCounts').value);
 
             if (!topic || !level) {
                 showToast('Mohon pilih topik dan level!', 'warning');
@@ -1500,7 +1497,7 @@
                         `).join('')}
                     </div>
                 </div>
-                <div class="flex justify-between">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6">
                     <button type="button" onclick="previousQuestion()" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors ${currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
                     <i class="fas fa-arrow-left mr-2"></i>
                     Sebelumnya
@@ -1702,7 +1699,7 @@
             // Reset form
             document.getElementById('quizTopic').value = '';
             document.getElementById('quizLevel').value = '';
-            document.getElementById('quizCount').value = '5';
+            document.getElementById('quizCounts').value = '';
         }
 
         function updateLeaderboard(data) {
@@ -1863,7 +1860,6 @@
             document.documentElement.style.setProperty('--vh', `${vh}px`);
         }
         window.addEventListener('resize', handleResize);
-        handleResize();
     </script>
 </body>
 
