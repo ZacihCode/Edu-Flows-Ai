@@ -606,7 +606,7 @@
                             <div class="stats-card text-center group">
                                 <div class="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-2 text-green-400 group-hover:text-green-300 transition-colors count-animate"
                                     id="topScore">0</div>
-                                <p class="text-white/70 text-sm md:text-base font-medium">Skor Tertinggi</p>
+                                <p class="text-white/70 text-sm md:text-base font-medium">Total Skor</p>
                                 <div
                                     class="w-16 h-1 bg-gradient-to-r from-green-400 to-teal-500 mx-auto mt-3 rounded-full">
                                 </div>
@@ -1065,8 +1065,8 @@
         document.addEventListener('DOMContentLoaded', async function () {
             try {
                 initializeEventListeners();
-
-                // Cek apakah user sudah login
+                fetchStatsAndAnimate();
+                // Auto-login
                 const token = localStorage.getItem('token');
                 const savedUser = localStorage.getItem('currentUser');
                 const savedProgress = localStorage.getItem('quizProgress');
@@ -1075,13 +1075,12 @@
                     currentUser = JSON.parse(savedUser);
                     updateNavigation();
                 } else {
-                    // Belum login, langsung ke login section
                     showSection('login');
                     return;
                 }
 
+                // Restore kuis jika ada
                 if (savedProgress) {
-                    // 🧠 Restore kuis in-progress
                     try {
                         const progress = JSON.parse(savedProgress);
                         currentQuiz = progress.currentQuiz;
@@ -1102,18 +1101,70 @@
                         showSection('home');
                     }
                 } else {
-                    // Tidak sedang mengerjakan kuis
                     showSection('home');
                 }
 
-                // Jalankan fungsi init lain
+                // Ganti showSection agar otomatis load profil & animasi stats saat home
+                const originalShowSection = showSection;
+                showSection = function (sectionName) {
+                    originalShowSection(sectionName);
+
+                    if (sectionName === 'profile') {
+                        loadProfile();
+                    }
+                };
+
+                // Fetch leaderboard
                 refreshLeaderboard();
+
+                // Efek transisi halaman
+                document.body.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.style.opacity = '1';
+                    document.body.style.transition = 'opacity 0.5s ease-in-out';
+                }, 100);
 
             } catch (err) {
                 console.error("Gagal inisialisasi aplikasi:", err);
                 showToast("Terjadi kesalahan saat memuat aplikasi", "error");
             }
         });
+
+        // Fungsi untuk animasi angka statistik
+        function animateCount(id, target, duration = 2000) {
+            const el = document.getElementById(id);
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const progress = Math.min((currentTime - startTime) / duration, 1);
+                const easeProgress = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(easeProgress * target);
+                el.textContent = current.toLocaleString('id-ID');
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            requestAnimationFrame(update);
+        }
+
+        // Ambil data statistik dari server & animasikan
+        async function fetchStatsAndAnimate() {
+            try {
+                const res = await fetch('/api/stats');
+                const data = await res.json();
+
+                if (res.ok) {
+                    setTimeout(() => animateCount("userCount", data.userCount), 200);
+                    setTimeout(() => animateCount("quizCount", data.quizCount), 400);
+                    setTimeout(() => animateCount("topScore", data.totalScore), 600);
+                } else {
+                    console.error("Gagal ambil statistik:", data.error);
+                }
+            } catch (err) {
+                console.error("❌ Gagal konek ke server:", err);
+            }
+        }
 
         // Fungsi untuk mengkonversi index ke huruf
         function indexToLetter(index) {
@@ -1660,8 +1711,11 @@
                 <tr class="hover:bg-gray-50">
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center">
-                            ${user.rank <= 3 ? `<i class="fas fa-trophy text-yellow-500 mr-2"></i>` : ''}
-                            <span class="text-lg font-semibold">${user.rank}</span>
+                            ${user.rank <= 3
+                    ? `<i class="fas fa-trophy text-yellow-500 mr-2 w-5 text-center"></i>`
+                    : `<span class="w-5 mr-2 inline-block"></span>`
+                }
+                            <span class="text-lg font-semibold text-black">${user.rank}</span>
                         </div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
@@ -1714,7 +1768,7 @@
 
                 const tbody = document.getElementById("leaderboardTable");
                 if (tbody) {
-                    tbody.innerHTML = `<tr><td colspan="9" class="text-center text-red-400">Gagal memuat leaderboard</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="9" class="text-center text-red-400">Gagal memuat leaderboard, login dulu</td></tr>`;
                 }
             }
         }
@@ -1803,82 +1857,11 @@
             }, 3000);
         }
 
-        // Update profile when showing profile section
-        document.addEventListener('DOMContentLoaded', function () {
-            const originalShowSection = showSection;
-            showSection = function (sectionName) {
-                originalShowSection(sectionName);
-                if (sectionName === 'profile') {
-                    loadProfile();
-                }
-            };
-        });
-
-        function animateCount(id, target, duration = 2000) {
-            const el = document.getElementById(id);
-            const start = 0;
-            const startTime = performance.now();
-
-            function update(currentTime) {
-                const progress = Math.min((currentTime - startTime) / duration, 1);
-                const easeProgress = 1 - Math.pow(1 - progress, 3); // Ease-out cubic
-                const current = Math.floor(easeProgress * target);
-                el.textContent = current.toLocaleString('id-ID');
-
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                }
-            }
-            requestAnimationFrame(update);
-        }
-
-        // Enhanced stats with more realistic numbers
-        const stats = {
-            userCount: 12438,
-            quizCount: 87529,
-            topScore: 100
-        };
-
-        // Intersection Observer for triggered animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // Trigger count animations with staggered delays
-                    setTimeout(() => animateCount("userCount", stats.userCount), 200);
-                    setTimeout(() => animateCount("quizCount", stats.quizCount), 400);
-                    setTimeout(() => animateCount("topScore", stats.topScore), 600);
-
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        // Initialize when DOM is ready
-        document.addEventListener("DOMContentLoaded", () => {
-            const statsSection = document.querySelector('.grid');
-            if (statsSection) {
-                observer.observe(statsSection);
-            }
-
-            // Add loading state
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-                document.body.style.transition = 'opacity 0.5s ease-in-out';
-            }, 100);
-        });
-
-        // Enhanced mobile responsiveness
+        // Responsive fix untuk mobile
         function handleResize() {
             const vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
         }
-
         window.addEventListener('resize', handleResize);
         handleResize();
     </script>
