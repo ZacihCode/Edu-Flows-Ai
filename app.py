@@ -203,6 +203,26 @@ def api_leaderboard():
     return jsonify(get_leaderboard_data())
 
 
+@app.route("/api/stats", methods=["GET"])
+def get_stats():
+    try:
+        user_count = users.count_documents({})
+        quiz_count = results.count_documents({})
+
+        quiz_docs = results.find({}, {"score": 1})
+        total_score = sum(doc["score"] for doc in quiz_docs if "score" in doc)
+        return jsonify(
+            {
+                "userCount": user_count,
+                "quizCount": quiz_count,
+                "totalScore": total_score,
+            }
+        )
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 # ========== RUN ==========
 if __name__ == "__main__":
     app.run(debug=True)
