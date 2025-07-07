@@ -1298,7 +1298,12 @@
         function goToQuestion(index) {
             currentQuestionIndex = index;
             renderQuestionStatus(); // Re-render untuk update status
-            // Tambahkan logika lain yang diperlukan untuk navigasi pertanyaan
+            displayQuestion();
+            saveQuizProgress();
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                const radio = document.querySelector(`input[name="answer"][value="${userAnswers[currentQuestionIndex]}"]`);
+                if (radio) radio.checked = true;
+            }
         }
 
         function initializeEventListeners() {
@@ -1380,6 +1385,7 @@
 
                     showSection("home");
                     updateNavigation();
+                    refreshLeaderboard();
                     showToast("Berhasil masuk!", "success");
                 } else {
                     showToast(data.error || "Login gagal!", "error");
