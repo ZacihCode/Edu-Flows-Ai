@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import requests
 import re
 import json
@@ -66,7 +65,6 @@ Variasi ke-{random.randint(1000, 9999)}
     except Exception as e:
         print("⚠️ Error generate soal:", e)
         return []
-=======
 import requests
 import re
 import json
@@ -140,4 +138,3 @@ Variasi ke-{random.randint(1000, 9999)}
     except Exception as e:
         print("⚠️ Error generate soal:", e)
         return []
->>>>>>> master

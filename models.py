@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -23,7 +22,8 @@ class QuizResult(db.Model):
     correct = db.Column(db.Integer)
     wrong = db.Column(db.Integer)
     total = db.Column(db.Integer)
-=======
+
+
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -48,4 +48,3 @@ class QuizResult(db.Model):
     correct = db.Column(db.Integer)
     wrong = db.Column(db.Integer)
     total = db.Column(db.Integer)
->>>>>>> master
