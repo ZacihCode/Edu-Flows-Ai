@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="id">
 
@@ -1885,3 +1886,1875 @@
 </body>
 
 </html>
+=======
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFlow AI - Kuis Pintar dengan AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                        'fade-in': 'fadeIn 1s ease-out forwards',
+                        'float': 'float 3s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'gradient-shift': 'gradientShift 8s ease-in-out infinite',
+                        'shine': 'shine 3s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        slideUp: {
+                            '0%': { transform: 'translateY(100px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        glow: {
+                            '0%': { filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.3))' },
+                            '100%': { filter: 'drop-shadow(0 0 30px rgba(255, 255, 255, 0.7))' }
+                        },
+                        gradientShift: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.8' }
+                        },
+                        shine: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' }
+                        }
+                    },
+                    backdropBlur: {
+                        'xs': '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .glass-effect {
+            background-color: rgba(76, 29, 149, 0.9);
+            /* Ungu gelap solid, masih tembus sedikit */
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2px;
+            border-radius: 12px;
+        }
+
+        .gradient-border-inner {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .floating-card {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .glow-effect {
+            font-weight: bold;
+            background: linear-gradient(to right, #facc15, #f97316);
+            /* from-yellow-400 to-orange-500 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+
+            animation: glowPulse 2s ease-in-out infinite alternate;
+            text-shadow: 0 0 5px rgba(255, 193, 7, 0.2);
+        }
+
+        @keyframes glowPulse {
+            0% {
+                text-shadow: 0 0 5px rgba(255, 193, 7, 0.2),
+                    0 0 10px rgba(255, 152, 0, 0.2);
+                opacity: 0.8;
+            }
+
+            50% {
+                text-shadow: 0 0 10px rgba(255, 193, 7, 0.4),
+                    0 0 20px rgba(255, 87, 34, 0.4);
+                opacity: 1;
+            }
+
+            100% {
+                text-shadow: 0 0 15px rgba(255, 193, 7, 0.7),
+                    0 0 30px rgba(255, 87, 34, 0.7);
+                opacity: 0.9;
+            }
+        }
+
+        .shine-effect {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        .shine-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 20%;
+            /* lebih tipis */
+            height: 100%;
+            background: linear-gradient(115deg,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(255, 255, 255, 0.6) 50%,
+                    rgba(255, 255, 255, 0) 100%);
+            animation: shine 2.5s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 120%;
+            }
+        }
+
+        .neon-border {
+            position: relative;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 20%;
+            height: 100%;
+            background: linear-gradient(120deg,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(255, 255, 255, 0.6) 50%,
+                    rgba(255, 255, 255, 0) 100%);
+            pointer-events: none;
+            z-index: 1;
+            /* Hapus transition agar tidak delay */
+        }
+
+        .neon-border:hover::before {
+            animation: shine 1.2s ease-in-out;
+        }
+
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 150%;
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+            }
+
+            to {
+                box-shadow: 0 0 30px rgba(102, 126, 234, 0.8);
+            }
+        }
+
+        @keyframes slide-up {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes scale-in {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .animate-scale-in {
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .animate-pulse-scale {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .animate-slide-up {
+            animation: slide-up 0.3s ease-out;
+        }
+
+        .animate-scale-in {
+            animation: scale-in 0.2s ease-out;
+        }
+
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 4px;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .custom-scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: #667eea #f1f1f1;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 3px;
+        }
+
+        .neon-border {
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.5);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .neon-border:hover {
+            box-shadow: 0 0 25px rgba(102, 126, 234, 0.8);
+            border-color: rgba(102, 126, 234, 0.6);
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .mobile-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-responsive {
+                padding: 1rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+                line-height: 1.2;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.3);
+            transform: translateX(5px);
+        }
+
+        .quiz-option.selected {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .leaderboard-row {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-row:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Stats card enhancement */
+        .stats-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading animation */
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .count-animate {
+            animation: countUp 0.6s ease-out forwards;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 min-h-screen">
+    <!-- Background Particles -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="particle" style="top: 10%; left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="top: 20%; left: 80%; animation-delay: 1s;"></div>
+        <div class="particle" style="top: 50%; left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="top: 80%; left: 70%; animation-delay: 3s;"></div>
+        <div class="particle" style="top: 30%; left: 90%; animation-delay: 4s;"></div>
+        <div class="particle" style="top: 70%; left: 5%; animation-delay: 5s;"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-purple-500/60 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex items-center space-x-3">
+                        <div
+                            class="w-10 h-10 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-xl flex items-center justify-center animate-pulse-scale">
+                            <i class="fas fa-brain text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <span class="text-xl font-bold text-white">EduFlow AI</span>
+                            <div class="text-xs text-white/70">Smart Quiz Platform</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#" onclick="showSection('home')"
+                        class="text-white/90 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-white/10">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    <a href="#" onclick="showSection('quiz')"
+                        class="text-white/90 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-white/10">
+                        <i class="fas fa-brain mr-2"></i>Kuis
+                    </a>
+                    <a href="#" onclick="showSection('leaderboard')"
+                        class="text-white/90 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-white/10">
+                        <i class="fas fa-trophy mr-2"></i>Leaderboard
+                    </a>
+                    <a href="#" hidden onclick="showSection('profile')"
+                        class="text-white/90 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-white/10">
+                        <i class="fas fa-user mr-2"></i>Profil
+                    </a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <button id="userBtn" onclick="showSection('login')"
+                        class="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-lg hover:bg-white/30 transition-all border border-white/30">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Masuk
+                    </button>
+                    <button class="md:hidden text-white" onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-purple-500/60 backdrop-blur-md border-t border-white/10">
+            <div class="px-4 py-3 space-y-2">
+                <a href="#" onclick="showSection('home')"
+                    class="block text-white/90 hover:text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+                    <i class="fas fa-home mr-2"></i>Home
+                </a>
+                <a href="#" onclick="showSection('quiz')"
+                    class="block text-white/90 hover:text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+                    <i class="fas fa-brain mr-2"></i>Kuis
+                </a>
+                <a href="#" onclick="showSection('leaderboard')"
+                    class="block text-white/90 hover:text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+                    <i class="fas fa-trophy mr-2"></i>Leaderboard
+                </a>
+                <a href="#" onclick="showSection('profile')"
+                    class="block text-white/90 hover:text-white px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
+                    <i class="fas fa-user mr-2"></i>Profil
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-16 pb-20 md:pb-8">
+        <!-- Home Section -->
+        <section id="homeSection" class="min-h-screen">
+            <!-- Hero Section -->
+            <div class="relative min-h-screen flex items-center justify-center">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                    <div class="animate-slide-up">
+                        <h1
+                            class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight shine-effect">
+                            Kuis Pintar dengan
+                            <span
+                                class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 glow-effect block sm:inline">AI</span>
+                        </h1>
+                        <p
+                            class="hero-subtitle text-lg sm:text-xl md:text-2xl text-white/90 mb-8 max-w-4xl mx-auto leading-relaxed">
+                            Rasakan pengalaman belajar yang revolusioner dengan soal-soal yang dibuat khusus oleh
+                            kecerdasan
+                            buatan
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+                            <button onclick="showSection('quiz')"
+                                class="neon-border bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 px-8 py-4 rounded-xl text-lg font-bold hover:from-yellow-300 hover:to-orange-400 transition-all hover-lift w-full sm:w-auto min-w-[280px] sm:min-w-[200px]">
+                                <i class="fas fa-rocket mr-2"></i>Mulai Kuis Sekarang
+                            </button>
+                            <button onclick="showSection('leaderboard')"
+                                class="glass-effect text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-white/20 transition-all hover-lift w-full sm:w-auto min-w-[280px] sm:min-w-[200px]">
+                                <i class="fas fa-trophy mr-2"></i>Lihat Peringkat
+                            </button>
+
+                            <!-- Scroll indicator -->
+                            <div class="flex bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce-slow">
+                                <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+                                    <div class="w-1 h-3 bg-white/60 rounded-full mt-2 animate-pulse"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Enhanced Statistik Section -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 text-white mt-8">
+                            <div class="stats-card text-center group">
+                                <div class="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-2 text-yellow-400 group-hover:text-yellow-300 transition-colors count-animate"
+                                    id="userCount">0</div>
+                                <p class="text-white/70 text-sm md:text-base font-medium">Pengguna Terdaftar</p>
+                                <div
+                                    class="w-16 h-1 bg-gradient-to-r from-yellow-400 to-orange-500 mx-auto mt-3 rounded-full">
+                                </div>
+                            </div>
+                            <div class="stats-card text-center group">
+                                <div class="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-2 text-blue-400 group-hover:text-blue-300 transition-colors count-animate"
+                                    id="quizCount">0</div>
+                                <p class="text-white/70 text-sm md:text-base font-medium">Total Kuis Dikerjakan</p>
+                                <div
+                                    class="w-16 h-1 bg-gradient-to-r from-blue-400 to-purple-500 mx-auto mt-3 rounded-full">
+                                </div>
+                            </div>
+                            <div class="stats-card text-center group">
+                                <div class="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-2 text-green-400 group-hover:text-green-300 transition-colors count-animate"
+                                    id="topScore">0</div>
+                                <p class="text-white/70 text-sm md:text-base font-medium">Total Skor</p>
+                                <div
+                                    class="w-16 h-1 bg-gradient-to-r from-green-400 to-teal-500 mx-auto mt-3 rounded-full">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Features Preview -->
+                        <div class="mt-16 flex flex-wrap justify-center gap-6 text-white/80">
+                            <div class="flex items-center gap-2 text-sm md:text-base">
+                                <i class="fas fa-brain text-purple-400"></i>
+                                <span>AI-Powered</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm md:text-base">
+                                <i class="fas fa-mobile-alt text-blue-400"></i>
+                                <span>Mobile Friendly</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm md:text-base">
+                                <i class="fas fa-chart-line text-green-400"></i>
+                                <span>Real-time Analytics</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm md:text-base">
+                                <i class="fas fa-users text-yellow-400"></i>
+                                <span>Multiplayer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <div class="text-center mb-16 animate-slide-up">
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Fitur Revolusioner</h2>
+                    <p class="text-white/80 text-lg md:text-xl max-w-2xl mx-auto">Teknologi AI terdepan untuk pengalaman
+                        belajar yang tak terlupakan</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="glass-card p-8 rounded-2xl hover-lift floating-card">
+                        <div
+                            class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-robot text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">AI Generated Quiz</h3>
+                        <p class="text-gray-600 leading-relaxed">Soal-soal unik yang dibuat secara real-time oleh AI
+                            berdasarkan topik dan level kesulitan yang Anda pilih</p>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl hover-lift floating-card" style="animation-delay: 1s;">
+                        <div
+                            class="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-trophy text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Real-time Ranking</h3>
+                        <p class="text-gray-600 leading-relaxed">Kompetisi seru dengan sistem peringkat yang diperbarui
+                            secara real-time dan statistik lengkap</p>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl hover-lift floating-card" style="animation-delay: 2s;">
+                        <div
+                            class="w-16 h-16 bg-gradient-to-r from-green-500 to-teal-600 rounded-2xl flex items-center justify-center mb-6">
+                            <i class="fas fa-cogs text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Smart Automation</h3>
+                        <p class="text-gray-600 leading-relaxed">Sistem otomatisasi canggih yang menyimpan dan mengelola
+                            semua hasil quiz dengan teknologi n8n</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Section -->
+        <section id="loginSection" class="hidden min-h-screen flex items-center justify-center mobile-responsive">
+            <div class="glass-card p-8 rounded-2xl w-full max-w-md mx-4 animate-scale-in">
+                <div class="text-center mb-8">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse-scale">
+                        <i class="fas fa-brain text-white text-2xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Selamat Datang!</h2>
+                    <p class="text-gray-600">Masuk ke akun EduFlow AI Anda</p>
+                </div>
+
+                <form id="loginForm" class="space-y-6">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-semibold mb-2">Email Address</label>
+                        <input type="email" id="loginEmail"
+                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all"
+                            placeholder="your@email.com" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-semibold mb-2">Password</label>
+                        <input type="password" id="loginPassword"
+                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all"
+                            placeholder="••••••••" required>
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 rounded-xl font-semibold hover:from-indigo-600 hover:to-purple-700 transition-all hover-lift">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Masuk ke Akun
+                    </button>
+                </form>
+
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600">Belum punya akun?
+                        <a href="#" onclick="showSection('register')"
+                            class="text-indigo-600 hover:text-indigo-700 font-semibold">Daftar sekarang</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Register Section -->
+        <section id="registerSection" class="hidden min-h-screen flex items-center justify-center mobile-responsive">
+            <div class="glass-card p-8 rounded-2xl w-full max-w-md mx-4 animate-scale-in">
+                <div class="text-center mb-8">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-r from-green-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user-plus text-white text-2xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Bergabung Sekarang!</h2>
+                    <p class="text-gray-600">Buat akun baru untuk memulai petualangan</p>
+                </div>
+
+                <form id="registerForm" class="space-y-6">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-semibold mb-2">Nama Lengkap</label>
+                        <input type="text" id="registerName"
+                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all"
+                            placeholder="Masukkan nama lengkap" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-semibold mb-2">Email Address</label>
+                        <input type="email" id="registerEmail"
+                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all"
+                            placeholder="your@email.com" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-semibold mb-2">Password</label>
+                        <input type="password" id="registerPassword"
+                            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all"
+                            placeholder="••••••••" required>
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-gradient-to-r from-green-500 to-teal-600 text-white py-3 rounded-xl font-semibold hover:from-green-600 hover:to-teal-700 transition-all hover-lift">
+                        <i class="fas fa-user-plus mr-2"></i>Buat Akun Baru
+                    </button>
+                </form>
+
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600">Sudah punya akun?
+                        <a href="#" onclick="showSection('login')"
+                            class="text-indigo-600 hover:text-indigo-700 font-semibold">Masuk di sini</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quizSection" class="hidden min-h-screen py-8 mobile-responsive">
+            <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Quiz Setup -->
+                <div id="quizSetup" class="glass-card rounded-2xl p-8 animate-slide-up">
+                    <div class="text-center mb-8">
+                        <div
+                            class="w-20 h-20 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse-scale">
+                            <i class="fas fa-brain text-white text-3xl"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-2">Siapkan Kuis Anda</h2>
+                        <p class="text-gray-600">Pilih topik dan tingkat kesulitan sesuai kemampuan Anda</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="gradient-border">
+                            <div class="gradient-border-inner">
+                                <label class="block text-gray-700 text-sm font-semibold mb-3">
+                                    <i class="fas fa-book mr-2 text-indigo-600"></i>Pilih Topik
+                                </label>
+                                <select id="quizTopic"
+                                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all">
+                                    <option value="">Pilih Topik Favorit</option>
+                                    <option value="matematika">🔢 Matematika</option>
+                                    <option value="fisika">⚛️ Fisika</option>
+                                    <option value="kimia">🧪 Kimia</option>
+                                    <option value="biologi">🧬 Biologi</option>
+                                    <option value="sejarah">📚 Sejarah</option>
+                                    <option value="geografi">🌍 Geografi</option>
+                                    <option value="bahasa-indonesia">🇮🇩 Bahasa Indonesia</option>
+                                    <option value="bahasa-inggris">🇺🇸 Bahasa Inggris</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="gradient-border">
+                            <div class="gradient-border-inner">
+                                <label class="block text-gray-700 text-sm font-semibold mb-3">
+                                    <i class="fas fa-chart-line mr-2 text-purple-600"></i>Level Kesulitan
+                                </label>
+                                <select id="quizLevel"
+                                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all">
+                                    <option value="">Pilih Level</option>
+                                    <option value="mudah">🟢 Mudah</option>
+                                    <option value="sedang">🟡 Sedang</option>
+                                    <option value="sulit">🔴 Sulit</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 gradient-border">
+                        <div class="gradient-border-inner">
+                            <label class="block text-gray-700 text-sm font-semibold mb-3">
+                                <i class="fas fa-list-ol mr-2 text-green-600"></i>Jumlah Soal
+                            </label>
+                            <select id="quizCount"
+                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all">
+                                <option value="5">5 Soal - Cepat</option>
+                                <option value="10">10 Soal - Standar</option>
+                                <option value="15">15 Soal - Menengah</option>
+                                <option value="20">20 Soal - Intensif</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 text-center">
+                        <button onclick="startQuiz()"
+                            class="neon-border bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-indigo-600 hover:to-purple-700 transition-all hover-lift">
+                            <i class="fas fa-rocket mr-2"></i>Mulai Kuis AI
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Loading -->
+                <div id="quizLoading"
+                    class="hidden bg-white/10 backdrop-blur-md border border-white/30 rounded-xl p-8 text-center shadow-xl animate-fade-in">
+                    <div
+                        class="animate-spin rounded-full h-16 w-16 border-4 border-indigo-500 border-t-transparent mx-auto mb-4">
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Mempersiapkan Kuis...</h3>
+                    <p class="text-gray-300">AI sedang membuat soal-soal terbaik untuk kamu</p>
+                </div>
+
+                <div id="questionStatusMenu" class="mb-6 relative w-full">
+                    <button id="questionDropdownBtn" onclick="toggleQuestionDropdown()">
+                        <!-- Dropdown button content -->
+                    </button>
+                    <div id="dropdown-content">
+                        <!-- Dropdown content -->
+                    </div>
+                </div>
+
+                <!-- Quiz Questions -->
+                <div id="quizQuestions" class="hidden mt-6">
+                    <div
+                        class="bg-white/10 backdrop-blur-md border border-white/30 rounded-xl p-6 shadow-xl animate-fade-in">
+                        <div class="flex justify-between items-center mb-4 text-white">
+                            <h3 class="text-lg font-semibold">
+                                Soal <span id="currentQuestion">1</span> dari <span id="totalQuestions">10</span>
+                            </h3>
+                            <div class="flex items-center space-x-2 text-indigo-300">
+                                <i class="fas fa-clock"></i>
+                                <span id="timer" class="font-medium">05:00</span>
+                            </div>
+                        </div>
+                        <div id="questionContainer">
+                            <!-- Soal akan diisi oleh JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz Results -->
+                <div id="quizResults"
+                    class="hidden bg-white/10 backdrop-blur-md border border-white/30 rounded-xl shadow-xl p-8 text-white text-center animate-fade-in">
+                    <i class="fas fa-trophy text-6xl text-yellow-400 mb-4"></i>
+                    <h2 class="text-3xl font-bold mb-3">Kuis Selesai!</h2>
+                    <p class="text-lg mb-2">Skor kamu:</p>
+                    <div class="text-5xl font-bold text-green-300 mb-1" id="finalScore">0</div>
+                    <p class="text-white/70 text-sm">dari <span id="maxScore">100</span> poin</p>
+
+                    <div class="grid grid-cols-2 gap-4 my-6">
+                        <div class="bg-green-800/30 p-4 rounded-lg">
+                            <p class="text-green-300">✅ Benar</p>
+                            <div class="text-3xl font-bold" id="correctAnswers">0</div>
+                        </div>
+                        <div class="bg-red-800/30 p-4 rounded-lg">
+                            <p class="text-red-300">❌ Salah</p>
+                            <div class="text-3xl font-bold" id="wrongAnswers">0</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 mt-4">
+                        <button type="button" onclick="showSection('leaderboard')"
+                            class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 transition rounded-xl font-semibold text-white shadow-lg">
+                            📊 Lihat Leaderboard
+                        </button>
+                        <button type="button" onclick="resetQuiz()"
+                            class="w-full py-3 bg-white/30 text-white hover:bg-white/40 transition rounded-xl font-semibold shadow-md">
+                            🔁 Coba Lagi
+                        </button>
+                    </div>
+                </div>
+                <!-- Review Section -->
+                <div id="quizReview" class="mt-8 text-left space-y-6 text-white text-sm">
+                    <!-- Diisi via JS -->
+                </div>
+            </section>
+        </section>
+        <!-- Leaderboard Section -->
+        <section id="leaderboardSection" class="hidden mt-12 max-w-4xl mx-auto text-white animate-fade-in">
+            <div class="bg-white/10 backdrop-blur-md border border-white/30 rounded-xl p-8 shadow-xl">
+                <h2 class="text-2xl font-bold text-center mb-6">
+                    🏆 Leaderboard
+                </h2>
+                <div class="overflow-x-auto rounded-lg">
+                    <table class="w-full text-left text-white/90 border-separate border-spacing-y-2">
+                        <thead>
+                            <tr class="text-indigo-300 text-sm uppercase tracking-wider">
+                                <th class="px-4 py-2">#</th>
+                                <th class="px-4 py-2">Nama</th>
+                                <th class="px-4 py-2">IQ</th>
+                                <th class="px-4 py-2">IQ Badge</th>
+                                <th class="px-4 py-2">Top Skor</th>
+                                <th class="px-4 py-2">Skor</th>
+                                <th class="px-4 py-2">Level</th>
+                                <th class="px-4 py-2">Badge</th>
+                                <th class="px-4 py-2">Total Kuis</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboardTable">
+                            <!-- Data leaderboard akan ditampilkan via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profileSection" class="hidden mt-12 max-w-4xl mx-auto text-white animate-fade-in">
+            <div class="bg-white/10 backdrop-blur-md border border-white/30 rounded-xl p-8 shadow-xl">
+                <h2 class="text-2xl font-bold text-center mb-6">👤 Profil Saya</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Informasi Akun -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-4">Informasi Akun</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm mb-1">Nama</label>
+                                <input id="profileName" type="text" disabled
+                                    class="w-full px-4 py-2 bg-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none" />
+                            </div>
+                            <div>
+                                <label class="block text-sm mb-1">Email</label>
+                                <input id="profileEmail" type="email" disabled
+                                    class="w-full px-4 py-2 bg-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none" />
+                            </div>
+                            <div>
+                                <label class="block text-sm mb-1">Tanggal Gabung</label>
+                                <input id="profileJoinDate" type="text" disabled
+                                    class="w-full px-4 py-2 bg-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistik -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-white mb-4">Statistik</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-indigo-800/30 p-4 rounded-lg text-center">
+                                <p class="text-2xl font-bold text-indigo-200" id="totalQuizzes">0</p>
+                                <p class="text-indigo-300 text-sm">Total Kuis</p>
+                            </div>
+                            <div class="bg-green-800/30 p-4 rounded-lg text-center">
+                                <p class="text-2xl font-bold text-green-200" id="bestScore">0</p>
+                                <p class="text-green-300 text-sm">Skor Tertinggi</p>
+                            </div>
+                            <div class="bg-yellow-800/30 p-4 rounded-lg text-center">
+                                <p class="text-2xl font-bold text-yellow-200" id="avgScore">0</p>
+                                <p class="text-yellow-300 text-sm">Rata-rata</p>
+                            </div>
+                            <div class="bg-purple-800/30 p-4 rounded-lg text-center">
+                                <p class="text-2xl font-bold text-purple-200" id="currentRank">-</p>
+                                <p class="text-purple-300 text-sm">Peringkat</p>
+                            </div>
+                            <div class="bg-indigo-50 p-4 rounded-lg text-center">
+                                <p class="text-2xl font-bold text-indigo-600" id="profileIQ">0</p>
+                                <p class="text-indigo-800 text-sm">EduFlow IQ</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 text-center">
+                    <button onclick="logout()"
+                        class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg shadow-md transition">
+                        🚪 Logout
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="glass-bg border-t border-white/20 text-white py-12 mt-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Brand -->
+                <div class="text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start space-x-3 mb-4">
+                        <div
+                            class="w-10 h-10 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
+                            <i class="fas fa-brain text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold">EduFlow AI</h3>
+                    </div>
+                    <p class="text-white/70 text-lg">Revolusi pembelajaran dengan kecerdasan buatan terdepan</p>
+                </div>
+
+                <!-- Features -->
+                <div class="text-center">
+                    <h4 class="text-xl font-bold mb-4">Fitur Unggulan</h4>
+                    <ul class="space-y-2 text-white/80">
+                        <li>🤖 AI Quiz Generator</li>
+                        <li>📊 Real-time Leaderboard</li>
+                        <li>⚡ Smart Analytics</li>
+                        <li>🏆 Achievement System</li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="text-center md:text-right">
+                    <h4 class="text-xl font-bold mb-4">Kontak</h4>
+                    <p class="text-white/70 mb-2">📧 info@eduflow.ai</p>
+                    <p class="text-white/70 mb-4">🌐 www.eduflow.ai</p>
+                    <p class="text-white/60 text-sm">© 2025 EduFlow AI. All rights reserved.</p>
+                    <p class="text-white/40 text-sm italic mt-2">Build with ❤️ by <span
+                            class="text-yellow-400 font-semibold">DhiasCode</span></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed top-5 right-5 z-50 hidden animate-fade-in">
+        <div class="bg-white/90 text-gray-800 rounded-lg px-5 py-3 shadow-lg flex items-center space-x-3">
+            <i id="toastIcon" class="fas fa-info-circle text-blue-600"></i>
+            <p id="toastMessage" class="font-medium"></p>
+        </div>
+    </div>
+    <script>
+        // Global variables
+        let currentUser = null;
+        let currentQuiz = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let quizTimer = null;
+        let timeLeft = 300;
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            try {
+                initializeEventListeners();
+                fetchStatsAndAnimate();
+                // Auto-login
+                const token = localStorage.getItem('token');
+                const savedUser = localStorage.getItem('currentUser');
+                const savedProgress = localStorage.getItem('quizProgress');
+
+                if (token && savedUser) {
+                    currentUser = JSON.parse(savedUser);
+                    updateNavigation();
+                } else {
+                    showSection('login');
+                    return;
+                }
+
+                // Restore kuis jika ada
+                if (savedProgress) {
+                    try {
+                        const progress = JSON.parse(savedProgress);
+                        currentQuiz = progress.currentQuiz;
+                        currentQuestionIndex = progress.currentQuestionIndex || 0;
+                        userAnswers = progress.userAnswers || [];
+                        timeLeft = progress.timeLeft || 300;
+
+                        showSection('quiz');
+                        document.getElementById('quizSetup').classList.add('hidden');
+                        document.getElementById('quizQuestions').classList.remove('hidden');
+                        document.getElementById('quizResults').classList.add('hidden');
+
+                        renderQuestionStatus();
+                        displayQuestion();
+                        startTimer();
+                    } catch (e) {
+                        console.warn("Gagal load progress kuis:", e);
+                        showSection('home');
+                    }
+                } else {
+                    showSection('home');
+                }
+
+                // Ganti showSection agar otomatis load profil & animasi stats saat home
+                const originalShowSection = showSection;
+                showSection = function (sectionName) {
+                    originalShowSection(sectionName);
+
+                    if (sectionName === 'profile') {
+                        loadProfile();
+                    }
+                };
+
+                // Fetch leaderboard
+                refreshLeaderboard();
+
+                // Efek transisi halaman
+                document.body.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.style.opacity = '1';
+                    document.body.style.transition = 'opacity 0.5s ease-in-out';
+                }, 100);
+
+            } catch (err) {
+                console.error("Gagal inisialisasi aplikasi:", err);
+                showToast("Terjadi kesalahan saat memuat aplikasi", "error");
+            }
+        });
+
+        // Fungsi untuk animasi angka statistik
+        function animateCount(id, target, duration = 2000) {
+            const el = document.getElementById(id);
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const progress = Math.min((currentTime - startTime) / duration, 1);
+                const easeProgress = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(easeProgress * target);
+                el.textContent = current.toLocaleString('id-ID');
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            requestAnimationFrame(update);
+        }
+
+        // Ambil data statistik dari server & animasikan
+        async function fetchStatsAndAnimate() {
+            try {
+                const res = await fetch('/api/stats');
+                const data = await res.json();
+
+                if (res.ok) {
+                    setTimeout(() => animateCount("userCount", data.userCount), 200);
+                    setTimeout(() => animateCount("quizCount", data.quizCount), 400);
+                    setTimeout(() => animateCount("topScore", data.totalScore), 600);
+                } else {
+                    console.error("Gagal ambil statistik:", data.error);
+                }
+            } catch (err) {
+                console.error("❌ Gagal konek ke server:", err);
+            }
+        }
+
+        // Fungsi untuk mengkonversi index ke huruf
+        function indexToLetter(index) {
+            if (typeof index === 'number' && index >= 0 && index <= 3) {
+                return String.fromCharCode(65 + index); // 65 adalah kode ASCII untuk 'A'
+            }
+            return index; // Kembalikan nilai asli jika bukan index yang valid
+        }
+
+        // Fungsi untuk toggle dropdown
+        function toggleQuestionDropdown() {
+            const content = document.querySelector('#dropdown-content');
+            const icon = document.querySelector('#dropdown-icon');
+
+            if (!content) {
+                console.error('Dropdown content not found');
+                return;
+            }
+
+            if (content.classList.contains('max-h-0')) {
+                content.classList.remove('max-h-0');
+                content.classList.add('max-h-72');
+                if (icon) icon.classList.add('rotate-180');
+            } else {
+                content.classList.add('max-h-0');
+                content.classList.remove('max-h-72');
+                if (icon) icon.classList.remove('rotate-180');
+            }
+        }
+
+        // Modifikasi fungsi renderQuestionStatus yang sudah ada
+        function renderQuestionStatus() {
+            const container = document.getElementById('questionStatusMenu');
+            if (!container || !currentQuiz) return;
+
+            // Get current question answer for button display
+            const currentAnswer = userAnswers[currentQuestionIndex];
+            // Konversi index ke huruf untuk tampilan
+            const currentAnswerText = typeof currentAnswer === 'number' ?
+                ` - ${indexToLetter(currentAnswer)}` :
+                (currentAnswer ? ` - ${currentAnswer}` : '');
+
+            // Hapus class grid dan ganti dengan class dropdown
+            container.className = "mb-6 relative w-full";
+
+            // Struktur dropdown dengan Tailwind CSS
+            container.innerHTML = `
+            <button 
+                id="questionDropdownBtn"
+                class="w-full bg-white border-2 border-gray-200 rounded-xl px-4 py-3 text-left flex items-center justify-between hover:bg-gray-50 hover:border-indigo-300 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-200 font-medium">
+                <div class="flex items-center">
+                    <span class="w-8 h-8 ${typeof userAnswers[currentQuestionIndex] !== 'undefined' ? 'bg-green-500' : 'bg-indigo-500'} text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                        ${currentQuestionIndex + 1}
+                    </span>
+                    <span class="text-gray-700">Pertanyaan ${currentQuestionIndex + 1}${currentAnswerText}</span>
+                </div>
+                <svg id="dropdown-icon" class="w-5 h-5 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+            
+            <div id="dropdown-content" class="absolute top-full left-0 right-0 bg-white border-2 border-gray-200 rounded-xl shadow-lg z-50 max-h-0 overflow-hidden transition-all duration-300 ease-in-out mt-1">
+                <div class="p-2 max-h-72 overflow-y-auto">
+                    ${currentQuiz.questions.map((question, index) => {
+                const answered = typeof userAnswers[index] !== 'undefined';
+                const isActive = index === currentQuestionIndex;
+                const userAnswer = userAnswers[index];
+
+                // Konversi jawaban untuk tampilan
+                const displayAnswer = typeof userAnswer === 'number' ?
+                    indexToLetter(userAnswer) :
+                    userAnswer;
+
+                return `
+                            <button 
+                                onclick="goToQuestion(${index}); toggleQuestionDropdown();"
+                                class="w-full flex items-center justify-between p-3 mb-1 rounded-lg hover:bg-gray-50 transition-all duration-200 text-left min-h-14 ${isActive ? 'bg-indigo-50 border-l-4 border-indigo-500' : ''}">
+                                <div class="flex items-center flex-1">
+                                    <span class="w-8 h-8 ${isActive ? 'bg-indigo-500' : answered ? 'bg-green-500' : 'bg-gray-400'} text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 flex-shrink-0">
+                                        ${index + 1}
+                                    </span>
+                                    <div class="flex flex-col items-start">
+                                        <span class="font-medium ${isActive ? 'text-indigo-700' : 'text-gray-700'} text-sm sm:text-base">
+                                            Pertanyaan ${index + 1}
+                                        </span>
+                                        ${answered ?
+                        `<span class="text-xs text-green-600 font-semibold mt-1">Jawaban: ${displayAnswer}</span>` :
+                        `<span class="text-xs text-gray-500 italic mt-1">Belum dijawab</span>`
+                    }
+                                    </div>
+                                </div>
+                                <div class="flex items-center ml-2">
+                                    ${answered ?
+                        '<svg class="w-4 h-4 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>' :
+                        '<svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle></svg>'
+                    }
+                                </div>
+                            </button>
+                        `;
+            }).join('')}
+                </div>
+            </div>
+        `;
+
+            // Attach event listener setelah innerHTML dibuat
+            const dropdownBtn = document.getElementById('questionDropdownBtn');
+            if (dropdownBtn) {
+                dropdownBtn.addEventListener('click', toggleQuestionDropdown);
+            }
+        }
+
+        // Tutup dropdown jika klik di luar
+        document.addEventListener('click', function (event) {
+            const dropdown = document.querySelector('#questionStatusMenu');
+            const content = document.querySelector('#dropdown-content');
+            const button = document.querySelector('#questionDropdownBtn');
+
+            if (dropdown && !dropdown.contains(event.target) && content && !content.classList.contains('max-h-0')) {
+                content.classList.add('max-h-0');
+                content.classList.remove('max-h-72');
+                const icon = document.querySelector('#dropdown-icon');
+                if (icon) icon.classList.remove('rotate-180');
+            }
+        });
+
+        // Pastikan dropdown update setiap kali ada perubahan
+        function goToQuestion(index) {
+            currentQuestionIndex = index;
+            renderQuestionStatus(); // Re-render untuk update status
+            // Tambahkan logika lain yang diperlukan untuk navigasi pertanyaan
+        }
+
+        function initializeEventListeners() {
+            const loginForm = document.getElementById('loginForm');
+
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
+            } else {
+                console.warn("❌ loginForm tidak ditemukan di DOM");
+            }
+
+            const registerForm = document.getElementById('registerForm');
+            if (registerForm) {
+                registerForm.addEventListener('submit', handleRegister);
+            }
+        }
+
+        function showSection(sectionName) {
+            // Hide all sections
+            const sections = ['homeSection', 'loginSection', 'registerSection', 'quizSection', 'leaderboardSection', 'profileSection'];
+            sections.forEach(section => {
+                document.getElementById(section).classList.add('hidden');
+            });
+
+            // Show selected section
+            document.getElementById(sectionName + 'Section').classList.remove('hidden');
+
+            // Hide mobile menu
+            document.getElementById('mobileMenu').classList.add('hidden');
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+
+            if (sectionName === "leaderboard") {
+                refreshLeaderboard();
+            }
+        }
+
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        function updateNavigation() {
+            const userBtn = document.getElementById('userBtn');
+            if (currentUser) {
+                userBtn.textContent = currentUser.name.split(' ')[0];
+                userBtn.onclick = () => showSection('profile');
+            } else {
+                userBtn.textContent = 'Masuk';
+                userBtn.onclick = () => showSection('login');
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+
+            const email = document.getElementById("loginEmail").value.trim();
+            const password = document.getElementById("loginPassword").value;
+
+            try {
+                const res = await fetch("/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const text = await res.text();  // ambil teks mentah
+                let data;
+
+                try {
+                    data = JSON.parse(text);
+                } catch (e) {
+                    console.error("❌ Response bukan JSON:\n", text);
+                    showToast("Server error: Response bukan JSON", "error");
+                    return;
+                }
+
+                if (res.ok) {
+                    localStorage.setItem("token", data.token);
+                    localStorage.setItem("currentUser", JSON.stringify(data.user));
+                    currentUser = data.user;
+
+                    showSection("home");
+                    updateNavigation();
+                    showToast("Berhasil masuk!", "success");
+                } else {
+                    showToast(data.error || "Login gagal!", "error");
+                }
+
+            } catch (err) {
+                console.error("Login error:", err);
+                showToast("Gagal konek ke server", "error");
+            }
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+
+            try {
+                const res = await fetch("/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, email, password })
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    showToast('Berhasil daftar! Silakan login.', 'success');
+                    showSection('login'); // ⬅️ Alihkan ke form login
+                } else {
+                    showToast(data.error || 'Gagal daftar!', 'error');
+                }
+            } catch (err) {
+                console.error("Register error:", err);
+                showToast('Gagal konek ke server', 'error');
+            }
+        }
+
+        function startQuiz() {
+            const topic = document.getElementById('quizTopic').value;
+            const level = document.getElementById('quizLevel').value;
+            const count = document.getElementById('quizCount').value;
+
+            if (!topic || !level) {
+                showToast('Mohon pilih topik dan level!', 'warning');
+                return;
+            }
+
+            if (!currentUser) {
+                showToast('Silakan login terlebih dahulu!', 'warning');
+                showSection('login');
+                return;
+            }
+
+            // Hide setup, show loading
+            document.getElementById('quizSetup').classList.add('hidden');
+            document.getElementById('quizLoading').classList.remove('hidden');
+
+            // Simulate AI generating questions
+            setTimeout(() => {
+                generateQuiz(topic, level, count);
+            }, 2000);
+        }
+
+        async function generateQuiz(topic, level, count) {
+            const token = localStorage.getItem("token");
+
+            try {
+                const res = await fetch("/generate-quiz", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": token
+                    },
+                    body: JSON.stringify({ topic, level, count })
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) throw new Error(data.error || "Gagal generate soal");
+
+                currentQuiz = {
+                    topic,
+                    level,
+                    questions: data.questions,
+                    totalQuestions: data.questions.length
+                };
+
+                currentQuestionIndex = 0;
+                userAnswers = [];
+                timeLeft = 300;
+
+                document.getElementById('quizLoading').classList.add('hidden');
+                document.getElementById('quizQuestions').classList.remove('hidden');
+                displayQuestion();
+                startTimer();
+            } catch (err) {
+                console.error("Generate quiz error:", err);
+                showToast('Gagal generate soal dari AI', 'error');
+            }
+        }
+
+        function displayQuestion() {
+            const question = currentQuiz.questions[currentQuestionIndex];
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('totalQuestions').textContent = currentQuiz.totalQuestions;
+            renderQuestionStatus();
+            const container = document.getElementById('questionContainer');
+            container.innerHTML = `
+                <div class="mb-6">
+                    <h4 class="text-lg font-medium text-gray-800 mb-4">${question.question}</h4>
+                    <div class="space-y-3">
+                        ${question.options.map((option, index) => `
+                            <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="radio" name="answer" value="${index}" class="mr-3">
+                                <span class="text-gray-700">${option}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="flex justify-between">
+                    <button type="button" onclick="previousQuestion()" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors ${currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''}" ${currentQuestionIndex === 0 ? 'disabled' : ''}>
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Sebelumnya
+                    </button>
+                    <button type="button" onclick="nextQuestion()" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                    ${currentQuestionIndex === currentQuiz.totalQuestions - 1 ? 'Selesai' : 'Selanjutnya'}
+                    <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        function nextQuestion() {
+            const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+            if (!selectedAnswer) {
+                showToast('Pilih jawaban terlebih dahulu!', 'warning');
+                return;
+            }
+
+            // Save answer
+            userAnswers[currentQuestionIndex] = parseInt(selectedAnswer.value);
+
+            if (currentQuestionIndex < currentQuiz.totalQuestions - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+                saveQuizProgress();
+                renderQuestionStatus();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+                saveQuizProgress();
+                renderQuestionStatus();
+
+                // Restore previous answer if exists
+                if (userAnswers[currentQuestionIndex] !== undefined) {
+                    const radio = document.querySelector(`input[name="answer"][value="${userAnswers[currentQuestionIndex]}"]`);
+                    if (radio) radio.checked = true;
+                }
+            }
+        }
+
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+            quizTimer = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(quizTimer);
+                    finishQuiz();
+                }
+            }, 1000);
+        }
+
+        async function finishQuiz() {
+            clearInterval(quizTimer);
+
+            let correctAnswers = 0;
+            currentQuiz.questions.forEach((question, index) => {
+                if (userAnswers[index] === question.correct) {
+                    correctAnswers++;
+                }
+            });
+
+            const score = Math.round((correctAnswers / currentQuiz.totalQuestions) * 100);
+            const wrongAnswers = currentQuiz.totalQuestions - correctAnswers;
+
+            document.getElementById('quizQuestions').classList.add('hidden');
+            document.getElementById('quizResults').classList.remove('hidden');
+            document.getElementById('quizReview').classList.remove('hidden');
+
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('maxScore').textContent = '100';
+            document.getElementById('correctAnswers').textContent = correctAnswers;
+            document.getElementById('wrongAnswers').textContent = wrongAnswers;
+
+            const token = localStorage.getItem("token");
+
+            try {
+                await fetch("/submit-result", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": token
+                    },
+                    body: JSON.stringify({
+                        topic: currentQuiz.topic,
+                        level: currentQuiz.level,
+                        score,
+                        correct: correctAnswers,
+                        wrong: wrongAnswers,
+                        total: currentQuiz.totalQuestions
+                    })
+                });
+            } catch (err) {
+                console.error("Submit result error:", err);
+                showToast('Gagal simpan hasil ke backend', 'error');
+            }
+
+            showToast('Kuis selesai!', 'success');
+            localStorage.removeItem('quizProgress');
+
+            const questionStatusMenu = document.getElementById('questionStatusMenu');
+            if (questionStatusMenu) {
+                questionStatusMenu.classList.add('hidden');
+            }
+
+            // ✅ Tambahkan Review Soal dan Jawaban
+            const reviewContainer = document.getElementById('quizReview');
+            if (reviewContainer) {
+                reviewContainer.innerHTML = ''; // Kosongkan dulu
+
+                currentQuiz.questions.forEach((question, index) => {
+                    const userAnswerIndex = userAnswers[index];
+                    const correctIndex = question.correct;
+                    const isCorrect = userAnswerIndex === correctIndex;
+
+                    const questionHTML = `
+                    <div class="p-4 border border-white/20 rounded-lg bg-white/5">
+                        <p class="font-medium text-white/80 mb-2">${index + 1}. ${question.question}</p>
+                        <ul class="space-y-1">
+                            ${question.options.map((option, optIndex) => {
+                        const isUser = userAnswerIndex === optIndex;
+                        const isCorrectAnswer = correctIndex === optIndex;
+
+                        let labelClass = '';
+                        if (isUser && isCorrectAnswer) {
+                            labelClass = 'text-green-400 font-semibold';
+                        } else if (isUser && !isCorrectAnswer) {
+                            labelClass = 'text-red-400 font-semibold';
+                        } else if (isCorrectAnswer) {
+                            labelClass = 'text-green-300 italic';
+                        } else {
+                            labelClass = 'text-gray-300';
+                        }
+
+                        return `<li class="${labelClass}">• ${option}</li>`;
+                    }).join('')}
+                        </ul>
+                        ${!isCorrect ? `<p class="mt-2 text-red-400">Jawaban kamu salah. Jawaban benar: <strong>${question.options[correctIndex]}</strong></p>` : ''}
+                    </div>
+                `;
+                    reviewContainer.innerHTML += questionHTML;
+                });
+            }
+        }
+
+        function saveQuizProgress() {
+            const progress = {
+                currentQuiz,
+                currentQuestionIndex,
+                userAnswers,
+                timeLeft
+            };
+            localStorage.setItem('quizProgress', JSON.stringify(progress));
+        }
+
+
+        function saveQuizResult(score, correct, wrong) {
+            // In real app, this would save to backend
+            const result = {
+                date: new Date().toISOString(),
+                topic: currentQuiz.topic,
+                level: currentQuiz.level,
+                score: score,
+                correct: correct,
+                wrong: wrong,
+                total: currentQuiz.totalQuestions
+            };
+
+            // Save to localStorage for demo
+            let userResults = JSON.parse(localStorage.getItem('userResults') || '[]');
+            userResults.push(result);
+            localStorage.setItem('userResults', JSON.stringify(userResults));
+        }
+
+        function resetQuiz() {
+            // Reset all quiz states
+            currentQuiz = null;
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            timeLeft = 300;
+
+            // Show setup, hide results
+            document.getElementById('quizResults').classList.add('hidden');
+            document.getElementById('quizSetup').classList.remove('hidden');
+
+            // Sembunyikan quiz review
+            document.getElementById('quizReview').classList.add('hidden');
+
+            // Reset form
+            document.getElementById('quizTopic').value = '';
+            document.getElementById('quizLevel').value = '';
+            document.getElementById('quizCount').value = '5';
+        }
+
+        function updateLeaderboard(data) {
+            const tbody = document.getElementById('leaderboardTable');
+            tbody.innerHTML = data.map(user => `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            ${user.rank <= 3
+                    ? `<i class="fas fa-trophy text-yellow-500 mr-2 w-5 text-center"></i>`
+                    : `<span class="w-5 mr-2 inline-block"></span>`
+                }
+                            <span class="text-lg font-semibold text-black">${user.rank}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">${user.name}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">${user.iq}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">${user.iq_badge}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${user.score} Top Score</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${user.points} Score</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">Level ${user.level}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900 font-bold inline-block px-2 py-1 rounded bg-yellow-400">${user.badge}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">${user.totalQuizzes} kuis</div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function refreshLeaderboard() {
+            const token = localStorage.getItem("token");
+
+            try {
+                const res = await fetch("/api/leaderboard", {
+                    headers: {
+                        "Authorization": token
+                    }
+                });
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || "Gagal fetch leaderboard");
+
+                updateLeaderboard(data);
+                showToast("Leaderboard diperbarui!", "success");
+
+            } catch (err) {
+                console.error("Leaderboard error:", err);
+                showToast("Gagal memuat leaderboard, login dulu", "error");
+
+                const tbody = document.getElementById("leaderboardTable");
+                if (tbody) {
+                    tbody.innerHTML = `<tr><td colspan="9" class="text-center text-red-400">Gagal memuat leaderboard, login dulu</td></tr>`;
+                }
+            }
+        }
+
+        async function loadProfile() {
+            if (!currentUser) return;
+
+            document.getElementById('profileName').value = currentUser.name;
+            document.getElementById('profileEmail').value = currentUser.email;
+            document.getElementById('profileJoinDate').value = currentUser.join_date;
+
+            const token = localStorage.getItem("token");
+
+            try {
+                const res = await fetch("/api/leaderboard", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": token
+                    }
+                });
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || "Gagal fetch leaderboard");
+
+                const current = data.find(
+                    u => u.name === currentUser.name || u.email === currentUser.email
+                );
+
+                document.getElementById("totalQuizzes").textContent = current?.totalQuizzes ?? 0;
+                document.getElementById("bestScore").textContent = current?.score ?? 0;
+                document.getElementById("avgScore").textContent = current?.avgScore ?? 0;
+                document.getElementById("currentRank").textContent = current?.rank ?? "-";
+                document.getElementById("profileIQ").textContent = current?.iq ?? "100";
+
+            } catch (err) {
+                console.error("Gagal load profile:", err);
+                showToast("Gagal memuat data profil", "error");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("token");
+            currentUser = null;
+            document.getElementById('profileName').value = '';
+            document.getElementById('profileEmail').value = '';
+            document.getElementById('profileJoinDate').value = '';
+
+            document.getElementById('totalQuizzes').textContent = '0';
+            document.getElementById('bestScore').textContent = '0';
+            document.getElementById('avgScore').textContent = '0';
+            document.getElementById('currentRank').textContent = '-';
+            document.getElementById("profileIQ").textContent = 0;
+
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('userResults');
+            updateNavigation();
+            showSection('home');
+            showToast('Berhasil logout!', 'success');
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toastIcon');
+            const messageEl = document.getElementById('toastMessage');
+
+            messageEl.textContent = message;
+
+            // Set icon based on type
+            switch (type) {
+                case 'success':
+                    icon.className = 'fas fa-check-circle text-green-600 mr-3';
+                    break;
+                case 'warning':
+                    icon.className = 'fas fa-exclamation-triangle text-yellow-600 mr-3';
+                    break;
+                case 'error':
+                    icon.className = 'fas fa-times-circle text-red-600 mr-3';
+                    break;
+                default:
+                    icon.className = 'fas fa-info-circle text-blue-600 mr-3';
+            }
+
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Responsive fix untuk mobile
+        function handleResize() {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        window.addEventListener('resize', handleResize);
+        handleResize();
+    </script>
+</body>
+
+</html>
+>>>>>>> master
