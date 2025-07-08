@@ -4,6 +4,7 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 from gemini_helper import generate_questions
 import os, datetime, bcrypt, secrets
+import pprint
 
 # Load .env
 load_dotenv()
@@ -79,14 +80,16 @@ def get_leaderboard_data():
                 {
                     "name": u["name"],
                     "email": u["email"],
+                    "token": u["token"],  # ✅ kirim token ke frontend
                     "score": top_score,
+                    "topScore": top_score,
                     "avgScore": avg_score,
-                    "totalQuizzes": total_quiz,
+                    "totalKuis": total_quiz,
                     "level": level,
                     "points": total_points,
                     "badge": badge,
                     "iq": iq,
-                    "iq_badge": iq_badge,
+                    "iqBadge": iq_badge,
                 }
             )
 
@@ -182,11 +185,12 @@ def generate_quiz():
         return jsonify({"error": "Unauthorized"}), 401
 
     data = request.json
-    topic = data["topic"]
-    level = data["level"]
+    topic = data.get("topic", "Umum")
+    level = data.get("level", "Sedang")
     count = int(data.get("count", 5))
+
     questions = generate_questions(topic, level, count)
-    return jsonify({"questions": questions})
+    return jsonify({"subject": topic, "questions": questions})
 
 
 @app.route("/api/leaderboard", methods=["GET"])
@@ -195,7 +199,6 @@ def api_leaderboard():
     user = users.find_one({"token": token})
     if not user:
         return jsonify({"error": "Unauthorized"}), 401
-
     return jsonify(get_leaderboard_data())
 
 

@@ -9,22 +9,31 @@ MODEL = "gemini-2.0-flash"
 
 
 def clean_response(text):
-    # Ambil isi JSON dari dalam blok markdown ```json ... ```
     match = re.search(r"```(?:json)?\s*(\[.*?\])\s*```", text, re.DOTALL)
     if match:
         return match.group(1)
-    return text  # fallback
+    return text
 
 
 def validate_questions(questions):
-    # Pastikan 'correct' adalah index valid dari options
     valid = []
     for q in questions:
         options = q.get("options", [])
         correct = q.get("correct", 0)
+        topic = q.get("topic", "")
         if isinstance(options, list) and len(options) == 4:
             if isinstance(correct, int) and 0 <= correct < len(options):
-                valid.append(q)
+                # Tambahkan struktur final sesuai quizData Flutter
+                valid.append(
+                    {
+                        "topic": topic,
+                        "question": q.get("question"),
+                        "options": options,
+                        "correct": correct,
+                        "userAnswer": -1,
+                        "timeLimit": 300,
+                    }
+                )
     return valid
 
 
@@ -38,6 +47,7 @@ Buatkan {count} soal pilihan ganda tentang topik '{topic}' dengan tingkat kesuli
 Format output:
 [
     {{
+        "topic": "{topic}",
         "question": "...",
         "options": ["...","...","...","..."],
         "correct": 0
@@ -49,10 +59,12 @@ Catatan penting:
 - Field "correct" adalah angka index (0–3) dari array 'options', bukan string.
 - Opsi harus acak urutan dan terdiri dari 4 pilihan.
 - Hindari soal berulang dan gunakan variasi gaya bahasa.
+- Topik yang dimaksud itu Topik Per Soal, Misal Aljabar Linear, Trigonometri, Pecahan, Penjumlahan, dan Lainnya.
 
 Seed unik: {seed}
 Variasi ke-{random.randint(1000, 9999)}
 """
+
     payload = {"contents": [{"parts": [{"text": prompt}]}]}
     try:
         response = requests.post(url, json=payload)
@@ -60,7 +72,7 @@ Variasi ke-{random.randint(1000, 9999)}
         text = response.json()["candidates"][0]["content"]["parts"][0]["text"]
         cleaned_text = clean_response(text)
         questions = json.loads(cleaned_text)
-        return validate_questions(questions)  # validasi jawaban benar
+        return validate_questions(questions)
 
     except Exception as e:
         print("⚠️ Error generate soal:", e)
