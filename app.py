@@ -4,7 +4,6 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 from gemini_helper import generate_questions
 import os, datetime, bcrypt, secrets
-import pprint
 
 # Load .env
 load_dotenv()
@@ -37,7 +36,7 @@ def get_iq_badge(iq):
     if iq >= 150:
         return "💡 Genius"
     elif iq >= 130:
-        return "📘 Sangat Cerdas"
+        return "📘 Pintar"
     elif iq >= 110:
         return "📗 Cerdas"
     return "📕 Rata-rata"
@@ -80,7 +79,8 @@ def get_leaderboard_data():
                 {
                     "name": u["name"],
                     "email": u["email"],
-                    "token": u["token"],  # ✅ kirim token ke frontend
+                    "join_date": u["join_date"],
+                    "token": u["token"],
                     "score": top_score,
                     "topScore": top_score,
                     "avgScore": avg_score,
@@ -109,20 +109,37 @@ def index():
 @app.route("/register", methods=["POST"])
 def register():
     data = request.json
+
     if users.find_one({"email": data["email"]}):
         return jsonify({"error": "Email sudah terdaftar"}), 400
 
-    hashed = bcrypt.hashpw(data["password"].encode(), bcrypt.gensalt())
+    if (
+        data["password"] == data["email"]
+        or data["password"].lower() == data["name"].lower()
+    ):
+        return (
+            jsonify({"error": "Password tidak boleh sama dengan email atau nama"}),
+            400,
+        )
+
+    if len(data["password"]) < 6:
+        return jsonify({"error": "Password minimal 6 karakter"}), 400
+
+    hashed = bcrypt.hashpw(data["password"].encode(), bcrypt.gensalt()).decode()
 
     new_user = {
         "name": data["name"],
         "email": data["email"],
-        "password": hashed.decode(),
+        "password": hashed,
         "join_date": datetime.date.today().isoformat(),
         "iq_score": 100,
         "token": secrets.token_hex(32),
+        "coins": 5,
+        "lastClaim": datetime.date.today().isoformat(),
     }
+
     result = users.insert_one(new_user)
+
     return jsonify({"message": "Berhasil daftar", "user_id": str(result.inserted_id)})
 
 
@@ -222,6 +239,43 @@ def get_stats():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/coin-status", methods=["GET"])
+def coin_status():
+    token = request.headers.get("Authorization")
+    user = users.find_one({"token": token})
+    if not user:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    today = datetime.date.today().isoformat()
+
+    # Reset coin harian jika belum diklaim
+    if user.get("lastClaim") != today:
+        users.update_one(
+            {"_id": user["_id"]},
+            {
+                "$inc": {"coins": 5},  # Tambah 5 coin
+                "$set": {"lastClaim": today},  # Update tanggal klaim terakhir
+            },
+        )
+        user["coins"] = 5
+
+    return jsonify({"coins": user["coins"]})
+
+
+@app.route("/use-coin", methods=["POST"])
+def use_coin():
+    token = request.headers.get("Authorization")
+    user = users.find_one({"token": token})
+    if not user:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    if user.get("coins", 0) <= 0:
+        return jsonify({"error": "Koin habis"}), 400
+
+    users.update_one({"_id": user["_id"]}, {"$inc": {"coins": -1}})
+    return jsonify({"message": "Koin digunakan", "coins": user["coins"] - 1})
+
+
 # ========== RUN ==========
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

@@ -60,6 +60,7 @@ Catatan penting:
 - Opsi harus acak urutan dan terdiri dari 4 pilihan.
 - Hindari soal berulang dan gunakan variasi gaya bahasa.
 - Topik yang dimaksud itu Topik Per Soal, Misal Aljabar Linear, Trigonometri, Pecahan, Penjumlahan, dan Lainnya.
+- Options sama correctnya dibuat random penempatannya setiap soal yang dibuat.
 
 Seed unik: {seed}
 Variasi ke-{random.randint(1000, 9999)}
